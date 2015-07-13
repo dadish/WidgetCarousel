@@ -1,0 +1,75 @@
+/**
+ * Images
+ */
+
+.WidgetCarousel .slide-ul{
+  position: relative;
+  margin : 0;
+  padding : 0;
+  width: 100%;
+  overflow: hidden;
+  list-style: none;
+}
+
+.WidgetCarousel .slide-li{
+  position: absolute;
+  top : 0%;
+  left : 100%;
+  width : 100%;
+}
+
+.WidgetCarousel .slide-li--a{
+  position : relative;
+  left : 0%;
+}
+
+.WidgetCarousel .slide-img{
+  width: 100%;
+}
+
+.WidgetCarousel .slide-ul--title,
+.WidgetCarousel .slide-li--title{
+  position: absolute;
+  bottom : 0%;
+  right : 0%;
+  left : 0%;
+  padding: 1rem 2rem;
+  z-index : 100;
+}
+
+.WidgetCarousel .slide--title{
+  color : #fff;
+  font-size: 2.5rem;
+  text-align: center;
+  
+  -moz-text-shadow : 0 0 8px #000;
+  -webkit-text-shadow : 0 0 8px #000;
+  text-shadow: 0 0 8px #000;
+}
+
+.WidgetCarousel .slide-li--next,
+.WidgetCarousel .slide-li--prev{
+  position : absolute;
+  top : -100px;
+  color : #fff;
+  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.4);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000);
+  zoom: 1;
+  padding : 0.75rem;
+  font-size: 1.25rem;
+  display: none;
+}
+
+.WidgetCarousel .slide-li--next:hover,
+.WidgetCarousel .slide-li--prev:hover{
+  cursor : pointer;
+}
+
+.WidgetCarousel .slide-li--next{
+  right : 0px;
+}
+
+.WidgetCarousel .slide-li--prev{
+  left : 0px;
+}
