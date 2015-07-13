@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * WidgetCarousel - A customizable Carousel.
+ *
+ *
+ */
+
+class WidgetCarousel extends Widget implements Module {
+
+  /**
+   * getModuleInfo is a module required by all modules to tell ProcessWire about them
+   *
+   * @return array
+   *
+   */
+  public static function getModuleInfo() {
+    return array(
+      'title' => 'Widget Carousel', 
+      'version' => 001, 
+      'summary' => _('A customizable Carousel.'),
+      'icon' => 'cubes',
+      'requires' => array('Widgets')
+      );
+  }
+
+  public static function getDefaultSettings()
+  {
+    return array(
+      'image_field' => 'images',
+      'image_count' => 1,
+      'include_text' => 1,
+      'single_text' => 1,
+      'text_from_description' => 1,
+      'text_field' => 'headline',
+      'text_tag' => 'h1'
+      );
+  }
+
+  protected function getFieldOptions($type = '')
+  {
+    $arr = array();
+    foreach ($this->fields as $field) {
+      if (!$type) $arr[$field->name] = $field->get('labal|name');
+      else if ($type === (string) $field->type) $arr[$field->name] = $field->get('label|name');
+    }
+    return $arr;
+  }
+
+  protected function getTagOptions()
+  {
+    $options = array();
+    
+    $options['headings'] = array(
+      'h1' => $this->_("Heading 1"),
+      'h2' => $this->_("Heading 2"),
+      'h3' => $this->_("Heading 3"),
+      'h4' => $this->_("Heading 4"),
+      'h5' => $this->_("Heading 5"),
+      'h6' => $this->_("Heading 6")
+      );
+
+    return $options;
+  }
+
+  public function setArray(array $arr)
+  {
+    parent::setArray($arr);
+    $settings = array_merge(self::getDefaultSettings(), $this->settings->getArray());
+    $this->settings->setArray($settings);
+  }
+
+  public function getSettingsFields($multipleRenders = true)
+  {
+    $fields = parent::getSettingsFields($multipleRenders);
+
+    $field = $this->modules->get('InputfieldSelect');
+    $field->name = 'image_field';
+    $field->label = $this->__('Image Field');
+    $field->attr('value', $this->settings->image_field);
+    $field->addOptions($this->getFieldOptions())
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldInteger');
+    $field->name = 'image_count';
+    $field->label = $this->__('Image Count');
+    $field->attr('value', $this->settings->image_count);
+    $field->description = $this->__('How many images from each page should be taken?');
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldCheckbox');
+    $field->name = 'include_text';
+    $field->label = $this->__('Include Text');
+    $field->attr('value', $this->settings->include_text);
+    $field->description = $this->__('Check this if you want to include text on your Carousel');
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldCheckbox');
+    $field->name = 'single_text';
+    $field->label = $this->__('Single Text');
+    $field->attr('value', $this->settings->single_text);
+    $field->description = $this->__('Show only one text for all slides. Uncheck this if you want to have seperate text for each image slide.');
+    $field->showIf = "include_text=1";
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldCheckbox');
+    $field->name = 'text_from_description';
+    $field->label = $this->__('Text From Description');
+    $field->description = $this->__('Check this if you want the text of the slides be taken from their descriptions.');
+    $field->attr('value', $this->settings->text_from_description);
+    $field->showIf = "include_text=1";
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldSelect');
+    $field->name = 'text_field';
+    $field->label = $this->__('Text Field');
+    $field->attr('value', $this->settings->text_field);
+    $field->description = $this->__('Choose the field where from the text will be used.');
+    $field->addOptions($this->getFieldOptions());
+    $field->showIf = "include_text=1, text_from_description=0";
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldSelect');
+    $field->name = 'text_tag';
+    $field->label = $this->__('Text Tag');
+    $field->attr('value', $this->settings->text_tag);
+    $field->description = $this->__('The HTML tag that will be used to display the text on the slide.');
+    $field->addOptions($this->getTagOptions());
+    $field->showIf = "include_text=1";
+    $fields->add($field);
+
+    return $fields;
+  }
+
+  public function processSettingsFields(InputfieldWrapper $settings)
+  {
+    parent::processSettingsFields($settings);
+
+    $this->settings->image_field = $settings->get('image_field')->value;
+    $this->settings->image_count = $settings->get('image_count')->value;
+    $this->settings->include_text = $settings->get('include_text')->value;
+    $this->settings->single_text = $settings->get('single_text')->value;
+    $this->settings->text_from_description = $settings->get('text_from_description')->value;
+    $this->settings->text_field = $settings->get('text_field')->value;
+    $this->settings->text_tag = $settings->get('text_tag')->value;
+  }
+}
