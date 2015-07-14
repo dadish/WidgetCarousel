@@ -34,8 +34,8 @@ class WidgetCarousel extends Widget implements Module {
       'image_height' => null,
       'include_text' => 1,
       'single_text' => 1,
-      'text_from_description' => 1,
-      'text_field' => 'headline'
+      'text_from_description' => 0,
+      'text_field' => 'headline|title'
       );
   }
 
@@ -122,15 +122,13 @@ class WidgetCarousel extends Widget implements Module {
     $field->showIf = "include_text=1, single_text=0";
     $fields->add($field);
 
-    $field = $this->modules->get('InputfieldSelect');
+    $field = $this->modules->get('InputfieldText');
     $field->name = 'text_field';
     $field->label = $this->_('Text Field');
     $field->attr('value', $this->settings->text_field);
     $field->description = $this->_('Choose the field where from the text will be used.');
-    $field->addOptions($this->getFieldOptions());
-    $field->required = true;
-    $field->showIf = "include_text=1, text_from_description=0";
-    $field->requiredIf = "text_from_description=0";
+    $field->notes = $this->_('You can set combined fields like `headline|title`');
+    $field->showIf = "include_text=1";
     $fields->add($field);
 
     return $fields;

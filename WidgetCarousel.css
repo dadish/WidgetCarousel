@@ -59,6 +59,7 @@
   padding : 0.75rem;
   font-size: 1.25rem;
   display: none;
+  z-index : 200;
 }
 
 .WidgetCarousel .slide-li--next:hover,
