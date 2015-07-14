@@ -34,7 +34,7 @@ define(function (require, exports, module) {
 
       this._cycleId = null;
 
-      this._interval = options.interval || 3000;
+      this._interval = options.interval || 7000;
 
       this._mouseIn = false;
 
