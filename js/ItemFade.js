@@ -18,6 +18,8 @@ define(function (require, exports, module) {
   module.exports = View.extend({
 
     initialize : function () {
+      View.prototype.initialize.apply(this, arguments);
+
       this._id = this.$el.attr('data-id');
       
       this._slideStatus = this.$el.is('.slide-li--a') ? status.isIn : status.isOut;
@@ -80,13 +82,13 @@ define(function (require, exports, module) {
 
     fadeIn : function (callback) {
       function then () {
-        this.$el.animate({opacity : 1}, Config.speed / 2, 'easeOutExpo', _.bind(callback, this));
+        this.$el.animate({opacity : 1}, this._speed / 2, 'easeOutExpo', _.bind(callback, this));
       }
-      setTimeout(_.bind(then, this), Config.speed / 2);
+      setTimeout(_.bind(then, this), this._speed / 2);
     },
 
     fadeOut : function (callback) {
-      this.$el.animate({opacity : 0}, Config.speed / 2, 'easeInExpo', _.bind(callback, this));
+      this.$el.animate({opacity : 0}, this._speed / 2, 'easeInExpo', _.bind(callback, this));
     }
 
   });

@@ -17,6 +17,10 @@ define(function (require, exports, module) {
 
   module.exports = Backbone.View.extend({
 
+    initialize : function (options) {
+      this._speed = options.speed;
+    },
+
     attachEvents : function () {
       this.listenTo(Events, 'slide:in', this.slideIn);
       this.listenTo(Events, 'slide:out', this.slideOut);

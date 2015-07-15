@@ -2,7 +2,7 @@
 $page = wire('page');
 $list = ($renderPages->count()) ? $renderPages : $renderPages->append($page);
 
-$imgsStr = "<ul class='slide-ul'>";
+$imgsStr = "<ul class='slide-ul' data-animationType='$settings->animation_type' data-speed='$settings->speed' data-interval='$settings->interval'>";
 $i = 0;
 
 $imgs = new PageImages($page);

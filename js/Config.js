@@ -21,15 +21,10 @@ define(function (require, exports, module) {
 			right : 'right'
 		},
 
-		animationType : 'fade',
-
 		animation : {
 			slide : 'slide',
 			fade : 'fade'
-		},
-
-		interval : 3000,
-		speed : 1500
+		}
 	};
 
 });

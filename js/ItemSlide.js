@@ -18,6 +18,8 @@ define(function (require, exports, module) {
   module.exports = View.extend({
 
     initialize : function () {
+      View.prototype.initialize.apply(this, arguments);
+      
       this._id = this.$el.attr('data-id');
       
       this._slideStatus = this.$el.is('.slide-li--a') ? status.isIn : status.isOut;
@@ -81,13 +83,12 @@ define(function (require, exports, module) {
     },
 
     place : function (position) {
-      if (Config.animationType !== animation.slide) return;
       position = (position === 'right') ? '100%' : '-100%';
       this.$el.css('left', position);
     },
 
     animate : function (slide, callback) {
-      this.$el.animate({left : slide}, Config.speed, 'easeInOutExpo', callback);
+      this.$el.animate({left : slide}, this._speed, 'easeInOutExpo', callback);
     }
 
   });

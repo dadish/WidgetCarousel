@@ -35,7 +35,10 @@ class WidgetCarousel extends Widget implements Module {
       'include_text' => 1,
       'single_text' => 1,
       'text_from_description' => 0,
-      'text_field' => 'headline|title'
+      'text_field' => 'headline|title',
+      'animation_type' => 'slide',
+      'speed' => 1000,
+      'interval' => 7000
       );
   }
 
@@ -47,6 +50,14 @@ class WidgetCarousel extends Widget implements Module {
       else if ($type === (string) $field->type) $arr[$field->name] = $field->get('label|name');
     }
     return $arr;
+  }
+
+  protected function getAnimationOptions()
+  {
+    return array(
+      'slide' => $this->_('Slide'),
+      'fade' => $this->_('Fade')
+      );
   }
 
   public function setArray(array $arr)
@@ -131,21 +142,35 @@ class WidgetCarousel extends Widget implements Module {
     $field->showIf = "include_text=1";
     $fields->add($field);
 
+    $field = $this->modules->get('InputfieldSelect');
+    $field->name = 'animation_type';
+    $field->label = $this->_('Animation Type');
+    $field->attr('value', $this->settings->animation_type);
+    $field->addOptions($this->getAnimationOptions());
+    $field->required = true;
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldInteger');
+    $field->name = 'speed';
+    $field->label = $this->_('Animation Speed');
+    $field->attr('value', $this->settings->speed);
+    $fields->add($field);
+
+    $field = $this->modules->get('InputfieldInteger');
+    $field->name = 'interval';
+    $field->label = $this->_('Animation Interval');
+    $field->attr('value', $this->settings->interval);
+    $fields->add($field);    
+
     return $fields;
   }
 
   public function processSettingsFields(InputfieldWrapper $settings)
   {
     parent::processSettingsFields($settings);
-      
-    $this->settings->image_field = $settings->get('image_field')->value;
-    $this->settings->image_count = $settings->get('image_count')->value;
-    $this->settings->image_thumbnail = $settings->get('image_thumbnail')->value;
-    $this->settings->image_width = $settings->get('image_width')->value;
-    $this->settings->image_height = $settings->get('image_height')->value;
-    $this->settings->include_text = $settings->get('include_text')->value;
-    $this->settings->single_text = $settings->get('single_text')->value;
-    $this->settings->text_from_description = $settings->get('text_from_description')->value;
-    $this->settings->text_field = $settings->get('text_field')->value;
+
+    foreach (self::getDefaultSettings() as $key => $value) {
+      $this->settings->set($key, $settings->get($key)->value);
+    }
   }
 }
