@@ -9,6 +9,7 @@
   width: 100%;
   overflow: hidden;
   list-style: none;
+  background-color: #000;
 }
 
 .WidgetCarousel .slide-li{

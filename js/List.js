@@ -4,7 +4,8 @@ define(function (require, exports, module) {
   
   var
     Backbone                      = require('backbone'),
-    Item                          = require('./Item'),
+    ItemSlide                     = require('./ItemSlide'),
+    ItemFade                      = require('./ItemFade'),
     Button                        = require('./Button'),
     Events                        = require('./Events'),
     Config                        = require('./Config'),
@@ -12,7 +13,8 @@ define(function (require, exports, module) {
   ;
 
   var
-    direction = Config.direction
+    direction = Config.direction,
+    animation = Config.animation
   ;
 
   module.exports = Backbone.View.extend({
@@ -23,18 +25,23 @@ define(function (require, exports, module) {
     },
 
     initialize : function (options) {
+      var Item;
       // The index of the current active carousel item
       this._index = 0;
+
+      Item = {};
+      Item[animation.slide] = ItemSlide;
+      Item[animation.fade] = ItemFade;
 
       // The carousel items
       this._items = [];
       _(this.$el.children('.slide-li')).each(function (item) {
-        this._items.push(new Item({el : item}));
+        this._items.push(new Item[Config.animationType]({el : item}));
       }, this);
 
       this._cycleId = null;
 
-      this._interval = options.interval || 7000;
+      this._interval = Config.interval;
 
       this._mouseIn = false;
 
