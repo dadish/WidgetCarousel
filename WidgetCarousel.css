@@ -50,6 +50,13 @@
   text-shadow: 0 0 8px #000;
 }
 
+.WidgetCarousel .slide--title.slide-title--lonely{
+  color : #000;  
+  -moz-text-shadow : 0 0 0px #000;
+  -webkit-text-shadow : 0 0 0px #000;
+  text-shadow: 0 0 0px #000;
+}
+
 .WidgetCarousel .slide-li--next,
 .WidgetCarousel .slide-li--prev{
   position : absolute;

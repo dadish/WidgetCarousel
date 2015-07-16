@@ -22,7 +22,13 @@ foreach ($list as $p) {
   $p->of(true);
 }
 
-if (!$imgs->count()) return 'Could not collect any image';
+if (!$imgs->count()) {
+  if ($settings->include_text && $settings->single_text){
+    $text = $renderPages->first()->get($settings->text_field);
+    echo "<h1 class='slide--title slide-title--lonely'>$text</h1>";
+  }
+  return '';
+}
 
 foreach ($imgs as $img) {
   if ($settings->image_thumbnail) {
