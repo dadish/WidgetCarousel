@@ -9,6 +9,9 @@
   width: 100%;
   overflow: hidden;
   list-style: none;
+}
+
+.WidgetCarousel .slide-ul--black{
   background-color: #000;
 }
 
