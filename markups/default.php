@@ -6,11 +6,11 @@ $classes = $settings->animation_type === 'fade' ? 'slide-ul slide-ul--black' : '
 $imgsStr = "<ul class='$classes' data-animationType='$settings->animation_type' data-speed='$settings->speed' data-interval='$settings->interval'>";
 $i = 0;
 
-$imgs = new PageImages($page);
+$imgs = new Pageimages($page);
 foreach ($list as $p) {
   $p->of(false);
   $imgField = $p->get($settings->image_field);
-  if ($imgField instanceof PageImages && $imgField->count()) {
+  if ($imgField instanceof Pageimages && $imgField->count()) {
     if ($settings->include_text && !$settings->single_text) {
       foreach ($imgField->shuffle()->filter("limit=$settings->image_count") as $img) {
         $img->text = ($settings->text_from_description) ? $img->description : $p->get($settings->text_field);
