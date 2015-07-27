@@ -38,7 +38,8 @@ class WidgetCarousel extends Widget implements Module {
       'text_field' => 'headline|title',
       'animation_type' => 'slide',
       'speed' => 1000,
-      'interval' => 7000
+      'interval' => 7000,
+      'markup_file' => ''
       );
   }
 
@@ -162,6 +163,13 @@ class WidgetCarousel extends Widget implements Module {
     $field->attr('value', $this->settings->interval);
     $fields->add($field);    
 
+    $field = $this->modules->get('InputfieldText');
+    $field->name = 'markup_file';
+    $field->label = $this->_('Markup File');
+    $field->attr('value', $this->settings->markup_file);
+    $field->collapsed = Inputfield::collapsedBlank;
+    $fields->add($field); 
+
     return $fields;
   }
 
@@ -172,5 +180,13 @@ class WidgetCarousel extends Widget implements Module {
     foreach (self::getDefaultSettings() as $key => $value) {
       $this->settings->set($key, $settings->get($key)->value);
     }
+  }
+
+  public function ___getTemplateFile()
+  {
+    $file = '';
+    if ($this->settings->markup_file) $file = $this->getMarkupsPath() . $this->settings->markup_file;
+    if (is_file($file)) return $this->setVariables(new TemplateFile($file));
+    else return parent::___getTemplateFile();
   }
 }
