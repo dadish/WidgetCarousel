@@ -54,8 +54,6 @@ define(function (require, exports, module) {
 
       this._mouseIn = false;
 
-      this.startCycle();
-
       this.nextButton = new Button({
         direction : 'next', 
         el : this.$('.slide-li--next')[0],
@@ -70,6 +68,8 @@ define(function (require, exports, module) {
 
       this.positionButtons();
       this.attachEvents();
+
+      if (this._items.length > 1) this.startCycle();
     },
 
     attachEvents : function () {
