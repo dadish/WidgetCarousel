@@ -2,7 +2,7 @@
 $page = wire('page');
 $pages = wire('pages');
 $input = wire('input');
-$galleryRender = get_home_page()->get("template=gallery-render");
+$galleryRender = wire('config')->babelHomePage->get("template=gallery-render");
 $gallery = $pages->get("template=gallery-list");
 $album = $input->urlSegment1;
 if ($album) $album = $pages->get("parent=$gallery, template=gallery-item, name=$album");
