@@ -23,8 +23,6 @@ define(function (require, exports, module) {
       this._id = this.$el.attr('data-id');
       
       this._slideStatus = this.$el.is('.slide-li--a') ? status.isIn : status.isOut;
-
-      this.attachEvents();
     },
 
     animateInFromLeft : function () {

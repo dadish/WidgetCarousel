@@ -24,8 +24,6 @@ define(function (require, exports, module) {
       
       this._slideStatus = this.$el.is('.slide-li--a') ? status.isIn : status.isOut;
 
-      this.attachEvents();
-
       this.$el.css({
         left : '0%',
         opacity : (this._slideStatus === status.isIn) ? 1 : 0

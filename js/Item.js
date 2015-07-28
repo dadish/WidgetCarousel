@@ -5,7 +5,6 @@ define(function (require, exports, module) {
   var
     Backbone                      = require('backbone'),
     Config                        = require('./Config'),
-    Events                        = require('./Events'),
     _                             = require('underscore')
   ;
 
@@ -19,11 +18,13 @@ define(function (require, exports, module) {
 
     initialize : function (options) {
       this._speed = options.speed;
+      this._carousel = options.carousel;
+      this.attachEvents();
     },
 
     attachEvents : function () {
-      this.listenTo(Events, 'slide:in', this.slideIn);
-      this.listenTo(Events, 'slide:out', this.slideOut);
+      this.listenTo(this._carousel, 'slide:in', this.slideIn);
+      this.listenTo(this._carousel, 'slide:out', this.slideOut);
     },
 
     slideIn : function (id, from) {

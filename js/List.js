@@ -7,14 +7,14 @@ define(function (require, exports, module) {
     ItemSlide                     = require('./ItemSlide'),
     ItemFade                      = require('./ItemFade'),
     Button                        = require('./Button'),
-    Events                        = require('./Events'),
     Config                        = require('./Config'),
     _                             = require('underscore')
   ;
 
   var
     direction = Config.direction,
-    animation = Config.animation
+    animation = Config.animation,
+    status = Config.status
   ;
 
   module.exports = Backbone.View.extend({
@@ -28,6 +28,8 @@ define(function (require, exports, module) {
       var Item;
       // The index of the current active carousel item
       this._index = 0;
+
+      this._slideStatus = status.end;
 
       // Get settings from the DOM Element
       this._animationType = this.$el.attr('data-animationType') || 'slide';
@@ -43,7 +45,8 @@ define(function (require, exports, module) {
       _(this.$el.children('.slide-li')).each(function (item) {
         this._items.push(new Item[this._animationType]({
           el : item, 
-          speed : this._speed
+          speed : this._speed,
+          carousel : this
         }));
       }, this);
 
@@ -53,17 +56,26 @@ define(function (require, exports, module) {
 
       this.startCycle();
 
-      this.nextButton = new Button({direction : 'next', el : this.$('.slide-li--next')[0]});
-      this.prevButton = new Button({direction : 'prev', el : this.$('.slide-li--prev')[0]});
+      this.nextButton = new Button({
+        direction : 'next', 
+        el : this.$('.slide-li--next')[0],
+        carousel : this
+      });
+
+      this.prevButton = new Button({
+        direction : 'prev', 
+        el : this.$('.slide-li--prev')[0],
+        carousel : this
+      });
 
       this.positionButtons();
       this.attachEvents();
     },
 
     attachEvents : function () {
-      this.listenTo(Events, 'slide:next', this.next);
-      this.listenTo(Events, 'slide:prev', this.prev);
-      this.listenTo(Events, 'slide:to slide:in slide:out', this.restartCycle);
+      this.on('slide:next', this.next);
+      this.on('slide:prev', this.prev);
+      this.on('slide:to slide:in slide:out', this.restartCycle);
       $(window).on('resize', _.bind(this.positionButtons, this));
     },
 
@@ -84,8 +96,8 @@ define(function (require, exports, module) {
       this._index = this._index + 1;
       if (this._index >= this._items.length) this._index = 0;
       
-      Events.trigger('slide:in', this._items[this._index]._id, direction.right);
-      Events.trigger('slide:out', this._items[oldIndex]._id, direction.left);
+      this.trigger('slide:in', this._items[this._index]._id, direction.right);
+      this.trigger('slide:out', this._items[oldIndex]._id, direction.left);
     },
 
     prev : function () {
@@ -95,8 +107,8 @@ define(function (require, exports, module) {
       this._index = this._index - 1;
       if (this._index < 0) this._index = lastIndex;
 
-      Events.trigger('slide:in', this._items[this._index]._id, direction.left);
-      Events.trigger('slide:out', this._items[oldIndex]._id, direction.right);
+      this.trigger('slide:in', this._items[this._index]._id, direction.left);
+      this.trigger('slide:out', this._items[oldIndex]._id, direction.right);
     },
 
     startCycle : function () {
@@ -121,12 +133,12 @@ define(function (require, exports, module) {
 
     onMouseenter : function () {
       this._mouseIn = true;
-      Events.trigger('buttons:show');
+      this.trigger('buttons:show');
     },
 
     onMouseleave : function () {
       this._mouseIn = false;
-      Events.trigger('buttons:hide');
+      this.trigger('buttons:hide');
     }
 
   });
