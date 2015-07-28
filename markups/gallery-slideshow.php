@@ -16,8 +16,9 @@ $i = 0;
 $imgs = new Pageimages($page);
 foreach ($list as $p) {
   $p->of(false);
-  $imgField = $p->get($settings->image_field)->makeCopy();
+  $imgField = $p->get($settings->image_field);
   if ($imgField instanceof Pageimages && $imgField->count()) {
+    $imgField = $imgField->makeCopy();
     $imgs->import($imgField->shuffle()->filter("limit=$settings->image_count"));  
   }
   $p->of(true);
