@@ -16,7 +16,7 @@ $i = 0;
 $imgs = new Pageimages($page);
 foreach ($list as $p) {
   $p->of(false);
-  $imgField = $p->get($settings->image_field);
+  $imgField = $p->get($settings->image_field)->makeCopy();
   if ($imgField instanceof Pageimages && $imgField->count()) {
     $imgs->import($imgField->shuffle()->filter("limit=$settings->image_count"));  
   }
@@ -42,12 +42,12 @@ foreach ($imgs as $img) {
   $i++;
 }
 
-$textPage = (!$album || $album instanceof NullPage) ? $gallery : $album;
-$text = $textPage->title_lang;
-$imgsStr .= "<li class='slide-ul--title'><h1 class='slide--title'><a class='gallery-carousel-a' href='$galleryRender->url'>$text</a></h1></li>";
+$imgsStr .= "<li class='slide-ul--title'><h1 class='slide--title'><a class='gallery-carousel-a' href='$galleryRender->url'>$galleryRender->title</a></h1></li>";
 
 $imgsStr .= "<li class='slide-li--next'><i class='icon-right'></i></li>";
 $imgsStr .= "<li class='slide-li--prev'><i class='icon-left'></i></li>";
 $imgsStr .= "</ul>";
+
+if ($page->id === $galleryRender->id) return '';
 
 echo $imgsStr;
