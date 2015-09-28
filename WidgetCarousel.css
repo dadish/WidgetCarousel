@@ -53,6 +53,20 @@
   text-shadow: 0 0 8px #000;
 }
 
+.WidgetCarousel .slide-ul--logo{
+  display: block;
+  position: absolute;
+  left : 0%;
+  right : 0%;
+  bottom : 60%;
+  z-index : 300;
+  text-align: center;
+}
+
+.WidgetCarousel .slide-ul--logo img{
+  width: 70px;
+}
+
 .WidgetCarousel .slide--title.slide-title--lonely{
   color : #000;  
   -moz-text-shadow : 0 0 0px #000;
