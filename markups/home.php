@@ -60,8 +60,8 @@ foreach ($imgs as $img) {
 if ($settings->include_text && $settings->single_text) {
   $text = $renderPages->first()->get($settings->text_field);
   $imgsStr .= "<li class='slide-ul--title'>";
-  $imgsStr .= "<h1 class='slide--title'>$text</h1>";
   $imgsStr .= "<a class='slide-ul--logo' href='/'><img src='/site/assets/files/1/gerb-big.0x120.png'></a>";
+  $imgsStr .= "<h1 class='slide--title'>$text</h1>";
   $imgsStr .= "</li>";
 }
 
